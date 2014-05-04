@@ -69,6 +69,61 @@ public class RBTree {
 		}
 	}
 
+	public Node removeNode(Node node, int key)throws ThereIsNoUncleException,
+	ThereIsNoGrandFatherException, ThereIsNoFatherException {
+		Color nodeColor = node.getColor( );
+		
+		if ( node == null){
+			
+			return null;
+		}
+		
+		else if (node.getKey( ) > key){
+			
+			node.setLeft( removeNode(node.getLeft( ), key) );
+		}
+		else if (node.getKey( )< key){
+			
+			node.setRight( removeNode(node.getRight( ),key) );
+		}
+		else{
+			
+			    if (node.getLeft( ) == null && node.getRight( ) == null){
+			    	
+			    	node = null;
+			    }
+			    //only have son to right
+			    else if( node.getLeft( ) == null){
+			    	
+			    	   	node = node.getRight( );
+			    }
+			    //have only son to left
+			    else if (node.getRight( ) == null){
+			    	
+			    	  node = node.getLeft( );
+			    }
+			    //have two sons
+			    else {
+			    	
+			    	Node aux = node.getLeft( );
+			    	   while (aux.getRight( )!= null){
+			    		   aux = aux.getRight( );
+			    	   }
+			    	   
+			    	   node.setKey( aux.getKey( ) );
+			    	   aux.setKey( key );
+			    	   node.setLeft( removeNode(node.getLeft( ),key) );
+			    }
+		}
+		
+		 if (nodeColor == Color.BLACK){
+			 verifyNode(node);
+		 }
+		
+		return node;
+			
+		
+	}
 	public void verifyNode(Node added) throws ThereIsNoUncleException,
 			ThereIsNoGrandFatherException, ThereIsNoFatherException {
 		Balancing balancing = wichCase(added);
