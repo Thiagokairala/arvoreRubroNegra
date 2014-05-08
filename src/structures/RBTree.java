@@ -72,49 +72,29 @@ public class RBTree {
 	public Node removeNode(Node node, int key)throws ThereIsNoUncleException,
 	ThereIsNoGrandFatherException, ThereIsNoFatherException {
 		Color nodeColor = node.getColor( );
-		
-		if ( node == null){
-			
-			return null;
-		}
-		
-		else if (node.getKey( ) > key){
-			
-			node.setLeft( removeNode(node.getLeft( ), key) );
-		}
-		else if (node.getKey( )< key){
-			
-			node.setRight( removeNode(node.getRight( ),key) );
-		}
-		else{
-			
-			    if (node.getLeft( ) == null && node.getRight( ) == null){
-			    	
-			    	node = null;
-			    }
-			    //only have son to right
-			    else if( node.getLeft( ) == null){
-			    	
-			    	   	node = node.getRight( );
-			    }
-			    //have only son to left
-			    else if (node.getRight( ) == null){
-			    	
-			    	  node = node.getLeft( );
-			    }
-			    //have two sons
-			    else {
-			    	
-			    	Node aux = node.getLeft( );
-			    	   while (aux.getRight( )!= null){
-			    		   aux = aux.getRight( );
-			    	   }
-			    	   
-			    	   node.setKey( aux.getKey( ) );
-			    	   aux.setKey( key );
-			    	   node.setLeft( removeNode(node.getLeft( ),key) );
-			    }
-		}
+		Node p , p2;
+		 if (node.getKey( ) == key) {
+	            if (node.getLeft( ) == node.getRight( )) {
+	                return null;
+	            } else if (node.getLeft( ) == null) {
+	                return node.getRight( );
+	            } else if (node.getRight( ) == null) {
+	                return node.getLeft( );
+	            } else {
+	                p2 = node.getRight( );
+	                p = node.getRight( );
+	                while (p.getLeft( ) != null) {
+	                    p = p.getLeft( );
+	                }
+	                p.setLeft( node.getLeft( ) );
+	                return p2;
+	            }
+	        } else if (node.getKey( ) < key) {
+	           node.setRight( removeNode(node.getRight( ),key) ); 
+	        } else {
+	           
+	            node.setLeft( removeNode(node.getLeft( ),key) );
+	        }
 		
 		 if (nodeColor == Color.BLACK){
 			 verifyNode(node);

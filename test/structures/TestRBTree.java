@@ -35,6 +35,17 @@ public class TestRBTree {
 		assertTrue(node.getKey() == 10);
 	}
 
+	
+	@Test
+	public void testRemoveNode() throws ThereIsNoUncleException, ThereIsNoGrandFatherException, ThereIsNoFatherException {
+		RBTree rbtree = new RBTree();
+		rbtree.addNode( 10 );
+		rbtree.addNode( 20 );
+		
+		assertNotNull( rbtree.removeNode( rbtree.getRoot( ), 20 ) );
+		
+		
+	}
 	@Test
 	public void testSearchToAddLeft() {
 		Node root = new Node();
